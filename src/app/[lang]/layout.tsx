@@ -4,7 +4,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { type ReactNode } from "react";
 
-import { Locale } from "@/features/internationalization/i18n-config";
+import {
+  type LocaleUrlCode,
+  urlCodeToLocale,
+} from "@/features/internationalization/i18n-config";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -21,10 +24,13 @@ const RootLayout = ({
   params: { lang },
 }: Readonly<{
   children: ReactNode;
-  params: { lang: Locale };
+  params: { lang: LocaleUrlCode };
 }>) => {
+  // Convert URL code to full locale
+  const locale = urlCodeToLocale[lang];
+
   return (
-    <html lang={lang}>
+    <html lang={locale}>
       <body className={`${inter.variable} antialiased`}>{children}</body>
     </html>
   );
