@@ -1,9 +1,14 @@
 import { redirect } from "next/navigation";
 
-import { i18n } from "@/features/internationalization/i18n-config";
+import {
+  i18n,
+  localeUrlCodes,
+} from "@/features/internationalization/i18n-config";
 
 const Index = () => {
-  redirect(`/${i18n.defaultLocale}`);
+  // Redirect to the default locale using URL code
+  const urlCode = localeUrlCodes[i18n.defaultLocale];
+  redirect(`/${urlCode}`);
 };
 
 export default Index;

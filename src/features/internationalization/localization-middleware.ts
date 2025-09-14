@@ -2,7 +2,7 @@ import { match } from "@formatjs/intl-localematcher";
 import Negotiator from "negotiator";
 import { type NextRequest, NextResponse } from "next/server";
 
-import { i18n } from "./i18n-config";
+import { i18n, localeUrlCodes, urlCodeToLocale } from "./i18n-config";
 
 const getLocale = (request: NextRequest) => {
   const headers = {
@@ -17,16 +17,18 @@ const getLocale = (request: NextRequest) => {
 export const localizationMiddleware = (request: NextRequest) => {
   const { pathname } = request.nextUrl;
 
-  const pathnameHasLocale = i18n.locales.some(
-    locale =>
-      pathname.startsWith(`/${locale}/`) ||
-      pathname === `/${locale}/` ||
-      pathname === `/${locale}`,
+  // Check if pathname already has a locale URL code
+  const pathnameHasLocale = Object.keys(urlCodeToLocale).some(
+    urlCode =>
+      pathname.startsWith(`/${urlCode}/`) ||
+      pathname === `/${urlCode}/` ||
+      pathname === `/${urlCode}`,
   );
 
   if (pathnameHasLocale) return;
 
   const locale = getLocale(request);
-  request.nextUrl.pathname = `/${locale}${pathname}`;
+  const urlCode = localeUrlCodes[locale as keyof typeof localeUrlCodes];
+  request.nextUrl.pathname = `/${urlCode}${pathname}`;
   return NextResponse.redirect(request.nextUrl);
 };

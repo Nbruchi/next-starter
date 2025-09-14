@@ -39,7 +39,7 @@ const eslintConfig = [
       "simple-import-sort": simpleImportSort,
     },
     rules: {
-      // Prefer arrow functions rules
+      // Prefer arrow functions rules (auto-fixable)
       "prefer-arrow/prefer-arrow-functions": [
         "error",
         {

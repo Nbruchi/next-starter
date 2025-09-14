@@ -1,6 +1,6 @@
 import { usePathname } from "next/navigation";
 
-import { Locale } from "./i18n-config";
+import { type Locale, localeUrlCodes } from "./i18n-config";
 
 export const useSwitchLocaleHref = () => {
   const pathname = usePathname();
@@ -8,7 +8,8 @@ export const useSwitchLocaleHref = () => {
   const getSwitchLocaleHref = (locale: Locale) => {
     if (!pathname) return "/";
     const segments = pathname.split("/");
-    segments[1] = locale;
+    const urlCode = localeUrlCodes[locale];
+    segments[1] = urlCode;
     return segments.join("/");
   };
 
